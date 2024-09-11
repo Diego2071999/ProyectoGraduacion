@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Clientes</title>
+    <style>
+        /* CSS remains the same */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #E5F4E1;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #6EC1E4;
+            padding: 10px 20px;
+        }
+
+        .home-link {
+            display: inline-block;
+        }
+
+        .home-icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        .logo {
+            max-width: 150px;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 10px;
+            background-color: #F5FFFA;
+        }
+
+        td:first-child {
+            background-color: #E6FF99;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <a href="calendarioV2.html" class="home-link">
+                <img src="casa.png" alt="Home" class="home-icon">
+            </a>
+        </div>
+        <div class="header-center">
+            <img src="logo.png" alt="Pharevsa Logo" class="logo">
+        </div>
+    </header>
+    <main>
+        <h1>Listado de clientes que ya se les terminará el pedido</h1>
+        <table id="client-table">
+            <tr>
+                <th>Días Restantes</th>
+                <th>Nombre del Cliente</th>
+                <th>Medicamento</th>
+            </tr>
+            <tr>
+                <td>3 días</td>
+                <td>Cliente 1</td>
+                <td>Medicamento</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const clients = [
+                { days: '3 días', name: 'Cliente 1', medication: 'Medicamento' }
+                // Add more clients here if needed
+            ];
+
+            const table = document.getElementById("client-table");
+
+            clients.forEach(client => {
+                const row = table.insertRow();
+                row.insertCell(0).innerText = client.days;
+                row.insertCell(1).innerText = client.name;
+                row.insertCell(2).innerText = client.medication;
+            });
+        });
+    </script>
+</body>
+</html>

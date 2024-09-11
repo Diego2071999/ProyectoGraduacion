@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgba(211, 251, 200, 0.7);
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu-icon {
+            cursor: pointer;
+            padding: 10px;
+            width: 30px;
+            height: 30px;
+        }
+
+        header {
+            background-color: #4db5e3;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+        }
+
+        header h1 {
+            margin: 0;
+            color: white;
+            font-size: 36px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .container {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100%;
+            background-color: #3E6581;
+            color: white;
+            position: fixed;
+            left: -250px;
+            top: 0;
+            transition: left 0.3s ease;
+            font-weight: bold;
+            z-index: 1000; /* Asegura que el sidebar esté por encima de otros elementos */
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar nav ul li {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .sidebar nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .sidebar nav ul li a:hover {
+            background-color: #444;
+        }
+
+        .profile-picture {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #ccc;
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        .info-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .info-section h2 {
+            font-size: 28px;
+            margin: 0;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .info-section p {
+            margin: 0;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .field-container {
+            margin-bottom: 20px;
+        }
+
+        .field-container label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .field-container input, 
+        .field-container select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .actions button {
+            background-color: #76e28f;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .actions a {
+            color: #76e28f;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .field-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-top: 1px solid #ccc; /* Línea separadora */
+            background-color: rgba(255, 255, 255, 0.8); /* Fondo para los botones */
+        }
+
+        .field-actions label {
+            margin-right: 10px;
+        }
+
+        .field-actions select, .field-actions button {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #4db5e3;
+            cursor: pointer;
+        }
+
+        /* Estilos para el modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-btn:hover,.close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+       /* .actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .actions button {
+            padding: 10px 20px;
+            background-color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }*/
+
+        .actions button:hover {
+            background-color: #ccc;
+        }
+
+        .field-container {
+            margin-bottom: 15px;
+        }
+
+        .field-container label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .field-container input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay">
+        <aside class="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="calendarioV2.html">Calendario</a></li>
+                    <li><a href="Clientes.html">Clientes</a></li>
+                    <li><a href="Pedidos.html">Pedidos</a></li>
+                    <li><a href="Reportes.html">Reportes</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="container">
+            <header>
+                <div class="menu-icon" onclick="toggleMenu()">
+                    <img src="menu.png" alt="Menú" style="width: 100%; height: 100%;">
+                </div>
+                <h1>Perfil</h1>
+            </header>
+        
+            <div class="info-section">
+                <div class="profile-picture">
+                    <img src="usuario.png" alt="Usuario" style="width: 100%; height: 100%; border-radius: 50%;">
+                </div>
+                <div>
+                    <h2>Información de contacto</h2>
+                    <p>Nombre: <span id="userName">Nombre del Usuario</span></p>
+                    <p>Apellido: <span id="userLastName">Apellido del Usuario</span></p>
+                    <p>Rol: <span id="userRole">Rol del Usuario</span></p>
+                    <p>Correo electrónico de contacto: <span id="userEmail">email@example.com</span></p>
+                    <p>Teléfono: <span id="userPhone">+00 123 456 7890</span></p>
+                </div>
+            </div>
+        
+            <!--<div class="field-container">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" placeholder="Ingrese su nueva contraseña">
+                <a href="#">cambiar contraseña</a>
+            </div>-->
+
+            <a href="#" onclick="openPasswordModal()">cambiar contraseña</a>            
+        
+            <div class="actions">
+                <!--<button type="button" onclick="cancelarEdicion()">Cancelar</button>-->
+                <button type="button" onclick="openModal()">Editar Información</button>
+            </div>
+        </div>
+
+        <!-- Modal para cambiar contraseña -->
+        <div id="passwordModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closePasswordModal()">&times;</span>
+                <h2>Cambiar Contraseña</h2>
+                <div class="field-container">
+                    <label for="currentPassword">Contraseña actual</label>
+                    <input type="password" id="currentPassword">
+                </div>
+                <div class="field-container">
+                    <label for="newPassword">Nueva contraseña</label>
+                    <input type="password" id="newPassword">
+                </div>
+                <div class="actions">
+                    <button onclick="guardarNuevaContrasena()">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <h2>Editar Perfil</h2>
+                <div class="field-container">
+                    <label for="editName">Nombre</label>
+                    <input type="text" id="editName">
+                </div>
+                <div class="field-container">
+                    <label for="editLastName">Apellido</label>
+                    <input type="text" id="editLastName">
+                </div>
+                <div class="field-container">
+                    <label for="editRole">Rol</label>
+                    <input type="text" id="editRole">
+                </div>
+                <div class="field-container">
+                    <label for="editEmail">Correo electrónico</label>
+                    <input type="email" id="editEmail">
+                </div>
+                <div class="field-container">
+                    <label for="editPhone">Teléfono</label>
+                    <input type="tel" id="editPhone">
+                </div>
+                <div class="actions">
+                    <button onclick="guardarCambios()">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function toggleMenu() {
+                const sidebar = document.querySelector('.sidebar');
+                sidebar.classList.toggle('open');
+            }
+
+            function closeMenu() {
+                const sidebar = document.querySelector('.sidebar');
+                sidebar.classList.remove('open');
+            }
+
+            document.addEventListener('click', (event) => {
+                const sidebar = document.querySelector('.sidebar');
+                const menuIcon = document.querySelector('.menu-icon');
+
+                if (!sidebar.contains(event.target) && !menuIcon.contains(event.target)) {
+                    closeMenu();
+                }
+            });
+
+            function guardarCambios() {
+                const userId = new URLSearchParams(window.location.search).get('id');
+                const userName = document.getElementById("editName").value;
+                const userLastName = document.getElementById("editLastName").value;
+                const userRole = document.getElementById("editRole").value;
+                const userEmail = document.getElementById("editEmail").value;
+                const userPhone = document.getElementById("editPhone").value;
+                
+                // Actualizar los valores en el perfil
+                document.getElementById("userName").textContent = userName;
+                document.getElementById("userLastName").textContent = userLastName;
+                document.getElementById("userRole").textContent = userRole;
+                document.getElementById("userEmail").textContent = userEmail;
+                document.getElementById("userPhone").textContent = userPhone;
+
+                // Actualizar en localStorage
+                const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+                const index = usuarios.findIndex(u => u.id === parseInt(userId));
+                if (index !== -1) {
+                    usuarios[index] = {
+                        id: parseInt(userId),
+                        nombre: userName,
+                        apellido: userLastName,
+                        rol: userRole,
+                        email: userEmail,
+                        telefono: userPhone
+                    };
+                    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+                }
+
+                // Cerrar el modal
+                closeModal();
+                /*alert('Cambios guardados');*/
+            }
+
+            function cancelarEdicion() {
+                closeModal();
+            }
+
+            function openModal() {
+                const userName = document.getElementById("userName").textContent;
+                const userLastName = document.getElementById("userLastName").textContent;
+                const userRole = document.getElementById("userRole").textContent;
+                const userEmail = document.getElementById("userEmail").textContent;
+                const userPhone = document.getElementById("userPhone").textContent;
+
+                document.getElementById("editName").value = userName;
+                document.getElementById("editLastName").value = userLastName;
+                document.getElementById("editRole").value = userRole;
+                document.getElementById("editEmail").value = userEmail;
+                document.getElementById("editPhone").value = userPhone;
+
+                document.getElementById("editModal").style.display = "block";
+            }
+
+            function closeModal() {
+                document.getElementById("editModal").style.display = "none";
+            }
+
+            // Cargar los datos del usuario al inicio (opcional)
+            document.addEventListener('DOMContentLoaded', function () {
+                const params = new URLSearchParams(window.location.search);
+                const userId = parseInt(params.get('id'));
+
+                const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+                const usuario = usuarios.find(u => u.id === userId);
+                
+                if (usuario){
+                    document.getElementById('userName').textContent = usuario.nombre;
+                    document.getElementById('userLastName').textContent = usuario.apellido;
+                    document.getElementById('userRole').textContent = usuario.rol;
+                    document.getElementById('userEmail').textContent = usuario.email;
+                    document.getElementById('userPhone').textContent = usuario.telefono;
+                }
+            });
+
+            function openPasswordModal() {
+               document.getElementById("passwordModal").style.display = "block";
+            }
+
+            function closePasswordModal() {
+                document.getElementById("passwordModal").style.display = "none";
+            }
+
+            function guardarNuevaContrasena() {
+                const currentPassword = document.getElementById("currentPassword").value;
+                const newPassword = document.getElementById("newPassword").value;
+
+            // Aquí puedes agregar la lógica para verificar la contraseña actual y actualizarla en localStorage o en una base de datos.
+
+            closePasswordModal();
+                /*alert('Contraseña cambiada exitosamente');*/
+            }
+        </script>
+    </div>
+
+</body>
+</html>

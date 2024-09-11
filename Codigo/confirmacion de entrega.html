@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Entrega</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgba(211, 251, 200, 0.7);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('fondo.jpg');
+            background-size: cover;
+        }
+
+        .container {
+            width: 80%;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #6CC3D5;
+            padding: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: white;
+            font-size: 24px;
+        }
+
+        .form-section {
+            padding: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Espacio uniforme entre elementos */
+            gap: 20px; /* Espacio entre los grupos de formulario */
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1; /* Permite que todos los grupos ocupen el mismo espacio */
+            min-width: 150px; /* Ajusta el ancho mínimo según sea necesario */
+    }
+        
+        .input-nombre, .input-field {
+            width: 100%; /* Asegura que los cuadros de texto ocupen todo el ancho de su contenedor */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #EFF9BB;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            background-color: #A4F790;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .input-nombre, .input-field {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #EFF9BB;
+        }
+
+        .btn {
+            background-color: #9BDEE7;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #7ac3d0;
+        }
+
+        .finalizar {
+            background-color: #4db5e3;
+            color: white;
+            font-weight: bold;
+        }
+
+        .finalizar:hover {
+            background-color: #3a94b8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <div class="menu-icon" onclick="toggleMenu()"></div>
+            <h1>Confirmación de entrega</h1>
+        </div>
+        <div class="form-section">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nombre-cliente">nombre cliente</label>
+                    <input type="text" id="nombre-cliente" class="input-nombre">
+                </div>
+                <div class="form-group">
+                    <label for="medicamento">medicamento</label>
+                    <input type="text" id="medicamento" class="input-field">
+                </div>
+                <div class="form-group">
+                    <label for="fecha-reposicion">fecha de reposición</label>
+                    <input type="date" id="fecha-reposicion" class="input-field">
+                </div>
+                <button class="btn">Reabastecer</button> <!-- Botón al lado de los campos -->
+            </div>
+            <button class="btn finalizar">finalizar pedido</button>
+        </div>
+    </div>
+
+</body>
+</html>
