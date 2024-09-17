@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial del Cliente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4db5e3;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #4db5e3;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #b2e0b2; /* Color verde claro */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Historial de Pedidos</h1>
+    </header>
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Medicamento</th>
+                <th>Teléfono</th>
+                <th>Dirección</th>
+            </tr>
+        </thead>
+        <tbody id="historialBody">
+            <!-- Los datos se llenarán dinámicamente -->
+        </tbody>
+    </table>
+
+    <script>
+        // Cargar datos desde localStorage
+        const datosPaciente = JSON.parse(localStorage.getItem('datosPaciente'));
+        const historialBody = document.getElementById('historialBody');
+
+        if (datosPaciente) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${new Date().toLocaleDateString()}</td>
+                <td>${datosPaciente.producto}</td>
+                <td>${datosPaciente.telefono}</td>
+                <td>${datosPaciente.direccionEntrega}</td>
+            `;
+            historialBody.appendChild(row);
+        }
+    </script>
+</body>
+</html>

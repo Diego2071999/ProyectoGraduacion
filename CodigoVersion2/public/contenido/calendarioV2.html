@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario Pharevsa</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgba(211, 251, 200, 0.7);
+            background-image: url('fondo.jpg'); /* Aquí puedes poner la imagen de fondo */
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #4db5e3;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .header-right img {
+            width: 24px; /* Puedes ajustar este valor según el tamaño deseado */
+            height: 24px; /* Asegúrate de mantener las proporciones */
+            object-fit: contain; /* Esto asegura que la imagen mantenga sus proporciones */
+        }
+        .menu-icon img, .notification-icon img {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .new-order-button button {
+            background-color: #76e28f;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .calendar-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            text-align: center;
+            width: 1800px;
+            text-align: center;
+            margin: 11px auto;
+        }
+
+        .calendar-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(211, 251, 200, 0.7); /* Color de fondo transparente */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-blend-mode: multiply; /* Modo de mezcla para el fondo */
+            z-index: -1;
+        }
+
+        .calendar {
+            width: 100%;
+            max-width: 1800px;
+            margin: 0 auto;
+            border-collapse: separate;
+        }
+
+        .calendar th, .calendar td {
+            padding: 40px;
+            border: 10px solid #ffffff;
+            background-color: #a3d3ff;
+            text-align: center;
+            width: 14.28%;
+            border-radius: 20px;
+        }
+
+        .calendar th {
+            background-color: #ddd;
+        }
+
+        .calendar td {
+            background-color: #86FFAF;
+            font-weight: bold;
+        }
+
+        .today {
+            border: 3px solid #ff5733; /* Color del borde */
+            border-radius: 20px; /* Mantiene la forma de la celda */
+            margin: -10px; /* Margen para resaltar */
+            position: relative;
+            background-color: #ffffff; /* Fondo para destacar el día */
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100%;
+            background-color: #3E6581;
+            color: white;
+            position: fixed;
+            left: -250px;
+            top: 0;
+            transition: left 0.3s ease;
+            font-weight: bold;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar nav ul li {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .sidebar nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .sidebar nav ul li a:hover {
+            background-color: #444;
+        }
+        
+        .header-right img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        .header-right a {
+             text-decoration: none; /* Elimina el subrayado del enlace */
+        }
+        
+        /* Estilos para las flechas de navegación */
+        .month-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .month-navigation button {
+            background-color: transparent;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .month-navigation button:focus {
+            outline: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <nav>
+            <ul>
+                <li><a href="clientes.html">Clientes</a></li>
+                <li><a href="Pedidos.html">Pedidos</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="Reportes.html">Reportes</a></li>
+                <li><a href="Usuarios.html">Usuarios</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main>
+        <header>
+            <div class="menu-icon" onclick="toggleMenu()">
+                <img src="menu.png" alt="Menú">
+            </div>
+            <div class="logo">
+                <img src="logo.png" alt="Pharevsa">
+            </div>
+            <div class="new-order-button">
+                <button onclick="nuevaOrden()">Nueva Orden</button>
+            </div>
+            <div class="header-right">
+                <a href="campana.html" class="home-link">
+                    <img src="campana.webp" alt="Notificaciones">
+                </a>
+            </div>
+        </header>
+        <div class="calendar-container">
+
+            <div class="month-navigation">
+                <button onclick="previousMonth()">&#9664;</button>
+                <h2 id="currentMonthYear">MAYO <span id="currentYear" style="font-size: 18px; color: #666;"></span></h2>
+                <button onclick="nextMonth()">&#9654;</button>
+            </div>
+            <table class="calendar">
+                <thead>
+                    <tr>
+                        <th>Domingo</th>
+                        <th>Lunes</th>
+                        <th>Martes</th>
+                        <th>Miércoles</th>
+                        <th>Jueves</th>
+                        <th>Viernes</th>
+                        <th>Sábado</th>
+                    </tr>
+                </thead>
+                <tbody id="calendarBody">
+                    <!-- Días del calendario generados por JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+
+        function updateCalendarHeader() {
+            document.getElementById('currentMonthYear').textContent = `${months[currentMonth]} ${currentYear}`;
+        }
+
+        function toggleMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function closeMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.remove('open');
+        }
+
+        document.addEventListener('click', (event) => {
+            const sidebar = document.querySelector('.sidebar');
+            const menuIcon = document.querySelector('.menu-icon');
+            if (!sidebar.contains(event.target) && !menuIcon.contains(event.target)) {
+                closeMenu();
+            }
+        });
+
+        function nuevaOrden() {
+            alert("Nueva orden creada");
+        }
+
+        function generateCalendar(month, year) {
+            const firstDay = new Date(year, month).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            const calendarBody = document.getElementById('calendarBody');
+            calendarBody.innerHTML = "";
+
+            let date = 1;
+            for (let i = 0; i < 6; i++) {
+                let row = document.createElement("tr");
+                for (let j = 0; j < 7; j++) {
+                    if (i === 0 && j < firstDay) {
+                        row.appendChild(document.createElement("td"));
+                    } else if (date > daysInMonth) {
+                        break;
+                    } else {
+                        let cell = document.createElement("td");
+                        cell.textContent = date;
+                        if (date === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) {
+                            cell.classList.add("today"); // Aquí se asigna la clase
+                        }
+                        row.appendChild(cell);
+                        date++;
+                    }
+                }
+                calendarBody.appendChild(row);
+            }
+        }
+
+        function previousMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            updateCalendarHeader();
+            generateCalendar(currentMonth, currentYear);
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            updateCalendarHeader();
+            generateCalendar(currentMonth, currentYear);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCalendarHeader();
+            generateCalendar(currentMonth, currentYear);
+        });
+    </script>
+
+</body>
+</html>

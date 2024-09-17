@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Preguntas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-image: url('fondo.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+        }
+
+        .overlay {
+            background-color: rgba(211, 251, 200, 0.7);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            height: 75vh;
+            flex: 1;
+            margin: 20px auto;
+            padding: 40px 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            overflow: hidden;
+        }
+
+        .table-container {
+            height: 100%;
+            overflow: auto;
+            border: 1px solid #4db5e3;
+            margin: 20px auto;
+        }
+        .menu-icon {
+            cursor: pointer;
+            padding: 10px;
+            width: 30px;
+            height: 30px;
+        }
+        header {
+            background-color: #4db5e3;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+        }
+        header h1 {
+            margin: 0;
+            color: white;
+            font-size: 36px;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100%;
+            background-color: #3E6581;
+            color: white;
+            position: fixed;
+            left: -250px;
+            top: 0;
+            transition: left 0.3s ease;
+            font-weight: bold;
+            z-index: 1000;
+        }
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar nav ul li {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .sidebar nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+<div class="overlay">
+    <aside class="sidebar">
+        <nav>
+            <ul>
+                <li><a href="calendarioV2.html">Calendario</a></li>
+                <li><a href="Clientes.html">Clientes</a></li>
+                <li><a href="Pedidos.html">Pedidos</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="Reportes.html">Reportes</a></li>
+            </ul>
+        </nav>
+    </aside>
+    
+    <header>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <img src="menu.png" alt="Menú" style="width: 30px; height: 30px;">
+        </div>
+        <div class="logo">
+            <img src="logo.png" alt="Pharevsa">
+        </div>
+        <h1>Nueva Orden</h1>
+    </header>
+
+    <div class="container" style="flex: 1; overflow-y: auto; margin: 20px 0; max-height: 770px;">
+        <h1>Datos del Paciente</h1>
+        <form id="preguntasForm">
+            <div class="form-group">
+                <label for="id">ID (No de la orden)</label>
+                <input type="text" id="id" required>
+            </div>
+            <div class="form-group">
+                <label for="nit">NIT</label>
+                <input type="text" id="nit" required>
+            </div>
+            <div class="form-group">
+                <label for="nombreFactura">Nombre en la factura</label>
+                <input type="text" id="nombreFactura" required>
+            </div>
+            <div class="form-group">
+                <label for="direccionEntrega">Dirección de entrega</label>
+                <input type="text" id="direccionEntrega" required>
+            </div>
+            <div class="form-group">
+                <label for="referencia">Referencia</label>
+                <textarea id="referencia" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="text" id="telefono" required>
+            </div>
+            <div class="form-group">
+                <label for="nombrePaciente">Nombre del paciente</label>
+                <input type="text" id="nombrePaciente" required>
+            </div>
+            <div class="form-group">
+                <label for="telefono2">Teléfono 2</label>
+                <input type="text" id="telefono2">
+            </div>
+            <div class="form-group">
+                <label for="edadPaciente">Edad del paciente</label>
+                <input type="number" id="edadPaciente" required>
+            </div>
+            <div class="form-group">
+                <label for="nombreEncargado">Nombre del encargado</label>
+                <input type="text" id="nombreEncargado" required>
+            </div>
+            <div class="form-group">
+                <label for="medicoReceta">Médico que receta</label>
+                <input type="text" id="medicoReceta" required>
+            </div>
+            <div class="form-group">
+                <label for="institucion">Institución</label>
+                <input type="text" id="institucion" required>
+            </div>
+            <div class="form-group">
+                <label for="sede">Sede</label>
+                <input type="text" id="sede" required>
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="dosisDiaria">Dosis diaria</label>
+                <input type="text" id="dosisDiaria" required>
+            </div>
+            <div class="form-group">
+                <label for="cantidadDiaria">Cantidad diaria</label>
+                <input type="text" id="cantidadDiaria" required>
+            </div>
+            <div class="form-group">
+                <label for="codclie">Código del cliente (CodClie)</label>
+                <input type="text" id="codclie">
+            </div>
+            <div class="form-group">
+                <label for="producto">Producto</label>
+                <input type="text" id="producto" required>
+            </div>
+            <div class="form-group">
+                <label for="cantidad">Cantidad</label>
+                <input type="text" id="cantidad" required>
+            </div>
+            <button type="button" onclick="guardarDatos()">Guardar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function toggleMenu() {
+        const sidebar = document.querySelector('.sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    function closeMenu() {
+        const sidebar = document.querySelector('.sidebar');
+        sidebar.classList.remove('open');
+    }
+
+    document.addEventListener('click', (event) => {
+        const sidebar = document.querySelector('.sidebar');
+        const menuIcon = document.querySelector('.menu-icon');
+
+        if (!sidebar.contains(event.target) && !menuIcon.contains(event.target)) {
+            closeMenu();
+        }
+    });
+
+    function guardarDatos() {
+        const id = document.getElementById('id').value;
+        const nit = document.getElementById('nit').value;
+        const nombreFactura = document.getElementById('nombreFactura').value;
+        const direccionEntrega = document.getElementById('direccionEntrega').value;
+        const referencia = document.getElementById('referencia').value;
+        const telefono = document.getElementById('telefono').value;
+        const nombrePaciente = document.getElementById('nombrePaciente').value;
+        const telefono2 = document.getElementById('telefono2').value;
+        const edadPaciente = document.getElementById('edadPaciente').value;
+        const nombreEncargado = document.getElementById('nombreEncargado').value;
+        const medicoReceta = document.getElementById('medicoReceta').value;
+        const institucion = document.getElementById('institucion').value;
+        const sede = document.getElementById('sede').value;
+        const email = document.getElementById('email').value;
+        const dosisDiaria = document.getElementById('dosisDiaria').value;
+        const cantidadDiaria = document.getElementById('cantidadDiaria').value;
+        const codclie = document.getElementById('codclie').value;
+        const producto = document.getElementById('producto').value;
+        const cantidad = document.getElementById('cantidad').value;
+
+        const datosPaciente = {
+            id, nit, nombreFactura, direccionEntrega, referencia, telefono, nombrePaciente, telefono2,
+            edadPaciente, nombreEncargado, medicoReceta, institucion, sede, email, dosisDiaria,
+            cantidadDiaria, codclie, producto, cantidad
+        };
+
+        localStorage.setItem('datosPaciente', JSON.stringify(datosPaciente));
+
+        alert('Datos guardados con éxito.');
+        document.getElementById('preguntasForm').reset();
+    }
+</script>
+
+</body>
+</html>

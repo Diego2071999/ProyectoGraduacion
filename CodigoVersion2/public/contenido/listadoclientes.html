@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Clientes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4db5e3;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #b2e0b2; /* Color verde claro */
+            margin: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Listado de Clientes</h1>
+    </header>
+    <ul id="clientesList">
+        <!-- Los datos se llenarán dinámicamente -->
+    </ul>
+
+    <script>
+        // Simulación de datos de clientes (esto debería venir de un lugar persistente)
+        const clientes = [
+            'Cliente 1',
+            'Cliente 2',
+            'Cliente 3',
+            'Cliente 4',
+            'Cliente 5',
+            'Cliente 6',
+            'Cliente 7',
+            'Cliente 8'
+        ];
+
+        const clientesList = document.getElementById('clientesList');
+
+        clientes.forEach(cliente => {
+            const li = document.createElement('li');
+            li.textContent = cliente;
+            li.innerHTML += '<button>Editar</button>'; // Puedes agregar funcionalidad de edición aquí
+            clientesList.appendChild(li);
+        });
+    </script>
+</body>
+</html>

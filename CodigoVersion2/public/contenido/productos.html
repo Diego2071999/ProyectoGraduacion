@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Productos</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('fondo.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+        }
+
+        .overlay {
+            background-color: rgba(211, 251, 200, 0.7);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #4db5e3;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .menu-icon img {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100%;
+            background-color: #3E6581;
+            color: white;
+            position: fixed;
+            left: -250px;
+            top: 0;
+            transition: left 0.3s ease;
+            font-weight: bold;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar nav ul li {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .sidebar nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            height: 75vh;
+            flex: 1;
+            margin: 20px auto;
+            padding: 40px 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            overflow: hidden;
+        }
+
+        .table-container {
+            height: 100%;
+            overflow: auto;
+            border: 1px solid #4db5e3;
+            margin: 20px auto;
+        }
+
+        table {
+            width: 100%;
+            height: 100%; /* La tabla tomará toda la altura del contenedor */
+            border-collapse: collapse;
+            margin: 0; /* Cambiado a 0 para evitar margen adicional */
+
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 2px solid #4db5e3;
+        }
+
+        table th {
+            background-color: #dff0d8;
+            color: black;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #e5ffda;
+        }
+
+        table td button {
+            background-color: #76e28f;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        table td button:hover {
+            background-color: #5DADE2;
+        }
+
+        input[type="text"], input[type="date"] {
+            padding: 10px;
+            width: 300px;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            background-color: #5DADE2;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background-color: #3498db;
+        }
+        
+        /* Estilos para el modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="overlay">
+        <aside class="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="calendarioV2.html">Clientes</a></li>
+                    <li><a href="clientes.html">Clientes</a></li>
+                    <li><a href="pedidos.html">Pedidos</a></li>
+                    <li><a href="reportes.html">Reportes</a></li>
+                    <li><a href="usuarios.html">Usuarios</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main>
+            <header>
+                <div class="menu-icon" onclick="toggleMenu()">
+                    <img src="menu.png" alt="Menú">
+                </div>
+                <div class="logo">
+                    <img src="logo.png" alt="Pharevsa">
+                </div>
+                <h1>Productos</h1>    
+            </header>
+            
+            <div class="container">
+                <div class="top-bar">
+                    <input type="text" id="search" placeholder="Buscar producto..." onkeyup="searchProduct()">
+                    <button class="btn" onclick="sortTable()">Inversión de Lista</button>
+                    <button class="btn" onclick="openModal()">Nuevo Producto</button>
+                </div>
+        
+                <div class="table-container">
+                    <table id="productTable">
+                        <thead>
+                            <tr>
+                                <th>Medicamento</th>
+                                <th>Fecha de compra</th>
+                                <th>Fecha de vencimiento</th>
+                                <th>Presentación</th>
+                                <th>Dosis</th>
+                                <th>Fecha de registro</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Los productos se insertarán dinámicamente aquí -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal para agregar/editar productos -->
+            <div class="modal" id="productModal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <h2>Agregar/Editar Producto</h2>
+                    <form id="productForm">
+                        <label for="medicamento">Medicamento:</label><br>
+                        <input type="text" id="medicamento" placeholder="Medicamento" required><br><br>
+
+                        <label for="presentacion">Presentación:</label><br>
+                        <input type="text" id="presentacion" placeholder="Presentación" required><br><br>
+
+                        <label for="dosis">Dosis:</label><br>
+                        <input type="text" id="dosis" placeholder="Dosis" required><br><br>
+
+                        <label for="fechaCompra">Fecha de Compra:</label><br>
+                        <input type="date" id="fechaCompra" required><br><br>
+
+                        <label for="fechaVencimiento">Fecha de Vencimiento:</label><br>
+                        <input type="date" id="fechaVencimiento" required><br><br>
+
+                        <label for="fechaRegistro">Fecha de Registro:</label><br>
+                        <input type="date" id="fechaRegistro" required><br><br>
+
+                        <button type="button" class="btn" onclick="saveProduct()">Guardar Producto</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+
+        function toggleMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function closeMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.remove('open');
+        }
+
+        document.addEventListener('click', (event) => {
+            const sidebar = document.querySelector('.sidebar');
+            const menuIcon = document.querySelector('.menu-icon');
+            if (!sidebar.contains(event.target) && !menuIcon.contains(event.target)) {
+                closeMenu();
+            }
+        });
+        
+        let products = [];
+        let isEditing = false;
+        let editingIndex = -1;
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedProducts = localStorage.getItem('products');
+            if (storedProducts) {
+                products = JSON.parse(storedProducts);
+                renderTable();
+            }
+        });
+    
+        function openModal() {
+            document.getElementById('productModal').style.display = 'flex';
+        }
+    
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+            document.getElementById('productForm').reset();
+            isEditing = false;
+            editingIndex = -1;
+        }
+    
+        function saveToLocalStorage() {
+            localStorage.setItem('products', JSON.stringify(products));
+        }
+    
+        function saveProduct() {
+            const medicamento = document.getElementById('medicamento').value;
+            const presentacion = document.getElementById('presentacion').value;
+            const dosis = document.getElementById('dosis').value;
+            const fechaCompra = document.getElementById('fechaCompra').value;
+            const fechaVencimiento = document.getElementById('fechaVencimiento').value;
+            const fechaRegistro = document.getElementById('fechaRegistro').value;
+    
+            const product = { medicamento,  presentacion, dosis, fechaCompra, fechaVencimiento, fechaRegistro };
+    
+            if (isEditing) {
+                products[editingIndex] = product;
+            } else {
+                products.push(product);
+            }
+    
+            saveToLocalStorage();
+            closeModal();
+            renderTable();
+        }
+    
+        function renderTable() {
+            const tbody = document.getElementById('productTable').querySelector('tbody');
+            tbody.innerHTML = '';
+    
+            products.forEach((product, index) => {
+                const row = `<tr>
+                    <td>${product.medicamento}</td>
+                    <td>${product.fechaCompra}</td>
+                    <td>${product.fechaVencimiento}</td>
+                    <td>${product.presentacion}</td>
+                    <td>${product.dosis}</td>
+                    <td>${product.fechaRegistro}</td>
+                    <td>
+                        <button onclick="editProduct(event, ${index})">Editar</button>
+                        <button onclick="deleteProduct(event, ${index})">Eliminar</button>
+                    </td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+        }
+    
+        function editProduct(event, index) {
+            event.stopPropagation();
+    
+            const product = products[index];
+    
+            document.getElementById('medicamento').value = product.medicamento;
+            document.getElementById('presentacion').value = product.presentacion;
+            document.getElementById('dosis').value = product.dosis;
+            document.getElementById('fechaCompra').value = product.fechaCompra;
+            document.getElementById('fechaVencimiento').value = product.fechaVencimiento;
+            document.getElementById('fechaRegistro').value = product.fechaRegistro;
+    
+            isEditing = true;
+            editingIndex = index;
+    
+            openModal();
+        }
+    
+        function deleteProduct(event, index) {
+            event.stopPropagation();
+            // Eliminar el producto directamente sin confirmación
+            products.splice(index, 1);
+            saveToLocalStorage();
+            renderTable();
+        }
+    
+        function searchProduct() {
+            const searchInput = document.getElementById('search').value.toLowerCase();
+            const filteredProducts = products.filter(product => 
+                product.medicamento.toLowerCase().includes(searchInput)
+            );
+            const tbody = document.getElementById('productTable').querySelector('tbody');
+            tbody.innerHTML = '';
+    
+            filteredProducts.forEach((product, index) => {
+                const row = `<tr>
+                    <td>${product.medicamento}</td>
+                    <td>${product.fechaCompra}</td>
+                    <td>${product.fechaVencimiento}</td>
+                    <td>${product.presentacion}</td>
+                    <td>${product.dosis}</td>
+                    <td>${product.fechaRegistro}</td>
+                    <td>
+                        <button onclick="editProduct(event, ${index})">Editar</button>
+                        <button onclick="deleteProduct(event, ${index})">Eliminar</button>
+                    </td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+        }
+    
+        function sortTable() {
+            products.reverse();
+            renderTable();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('productTable').querySelector('tbody');
+            tbody.innerHTML = '';
+
+            products.forEach((product, index) => {
+                const row = `<tr onclick="viewProduct(${index})">
+                    <td>${product.medicamento}</td>
+                    <td>${product.presentacion}</td>
+                    <td>${product.dosis}</td>
+                    <td>${product.fechaCompra}</td>
+                    <td>${product.fechaVencimiento}</td>
+                    <td>${product.fechaRegistro}</td>
+                    <td>
+                        <button onclick="editProduct(${index})">Editar</button>
+                        <button onclick="deleteProduct(${index})">Eliminar</button>
+                    </td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function viewProduct(index) {
+            const product = products[index];
+            localStorage.setItem('selectedProduct', JSON.stringify(product));
+            window.location.href = 'detalleproducto.html'; // Redirige a otro HTML
+        }
+    </script>
+
+</body>
+</html>
