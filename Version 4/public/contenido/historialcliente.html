@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial del Cliente</title>
+    <link rel="stylesheet" href="menu.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('imagenes/fondo.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh; /* Asegura que el fondo cubra toda la pantalla */
+        }
+        .overlay {
+            background-color: rgba(211, 251, 200, 0.7);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 95%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            background-color: #4db5e3;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        table {
+            width: 100%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #4db5e3;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #b2e0b2; /* Color verde claro */
+        }
+
+        .factura-titulo {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+        }
+        
+        /*modal editar*/
+        /* Estilos del Modal */
+        .modal {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,.close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <aside class="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="calendarioV2.html">Calendario</a></li>
+                    <li><a href="clientes.html">Clientes</a></li>
+                    <li><a href="pedidos.html">Pedidos</a></li>
+                    <li><a href="reportes.html">Reportes</a></li>
+                    <li><a href="usuarios.html">Usuarios</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <header>
+            <div class="menu-icon" onclick="toggleMenu()">
+                <img src="imagenes/menu.png" alt="Menú">
+            </div>
+            <div class="logo">
+                <img src="imagenes/logo.png" alt="Pharevsa">
+            </div>
+            <h2 style="margin: 0; color: white;">Historial de pedidos</h2>   
+        </header>
+        
+        
+
+        <div class="container" style="overflow-y: auto; max-height: 750px;">
+            
+            <!-- Título de la factura -->
+            <div id="facturaTitulo" class="factura-titulo"></div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Nombre del paciente</th>
+                        <th>Edad del paciente</th>
+                        <th>enfermedad</th>
+                        <th>Nombre del encargado</th>
+                        <th>Medicamento</th>
+                        <th>Cantidad</th>
+                        <th>Dosis diaria</th>
+                        <th>tiempo de Consumo</th>
+                        <th>NIT</th>
+                        <th>Teléfono</th>
+                        <th>Teléfono 2</th>
+                        <th>Dirección</th>
+                        <th>Referencia</th>
+                        <th>Médico que receta</th>
+                        <th>Institución</th>
+                        <th>Sede</th>
+                        <th>E-mail</th>
+                        <th>codigo del Cliente</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+            <tbody id="historialBody">
+                <!-- Los datos se llenarán dinámicamente -->
+            </tbody>
+            </table>
+        </div>
+
+       <!-- Modal para editar cliente -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeEditModal()">&times;</span>
+                <h2>Editar Cliente</h2>
+                    <label for="editnit">NIT:</label>
+                    <input type="text" id="editnit" /><br/>
+                    <label for="editNombre">Nombre del Paciente:</label>
+                    <input type="text" id="editNombre" /><br/>
+                    <label for="editEdad">Edad:</label>
+                    <input type="text" id="editEdad" /><br/>
+                    <label for="editEdad">Enfermedad:</label>
+                    <input type="text" id="editenfermedad" /><br/>
+                    <label for="editEncargado">Nombre del encargado:</label>
+                    <input type="text" id="editEncargado" /><br/>
+                    <label for="editMedicamento">Medicamento:</label>
+                    <input type="text" id="editMedicamento" /><br/>
+                    <label for="editCantidad">Cantidad:</label>
+                    <input type="text" id="editCantidad" /><br/>
+                    <label for="editDosisDiaria">Dosis diaria:</label>
+                    <input type="text" id="editDosisDiaria" /><br/>
+                    <label for="editTiempoConsumo">Tiempo de Consumo:</label>
+                    <input type="text" id="editTiempoConsumo" /><br/>
+                    <label for="editTelefono">Teléfono:</label>
+                    <input type="text" id="editTelefono" /><br/>
+                    <label for="editTelefono2">Teléfono 2:</label>
+                    <input type="text" id="editTelefono2" /><br/>
+                    <label for="editDireccion">Direccion:</label>
+                    <input type="text" id="editDireccion" /><br/>
+                    <label for="editMedico">Medico que receta:</label>
+                    <input type="text" id="editMedico" /><br/>
+                    <label for="editInstitucion">Institución:</label>
+                    <input type="text" id="editInstitucion" /><br/>
+                    <label for="editSede">Sede:</label>
+                    <input type="text" id="editSede" /><br/>
+                    <label for="editEmail">E-mail:</label>
+                    <input type="text" id="editEmail" /><br/>
+                    <button onclick="saveEdit()">Guardar Cambios</button>
+            </div>
+        </div>
+        
+    <script  src="menu.js"></script>
+    <script src="historialcliente.js"></script>
+
+</body>
+</html>
