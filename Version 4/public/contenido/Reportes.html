@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes</title>
+    <link rel="stylesheet" href="menu.css"> 
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('fondo.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+        }
+
+        .overlay {
+            background-color: rgba(211, 251, 200, 0.7);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #3399ff;
+            color: white;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        h1, h2 {
+        text-align: center;
+        color: #333;
+        }
+
+        /* Botón desplegable */
+        .dropbtn {
+            background-color: #3399ff;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .dropbtn:hover {
+            background-color: #007acc;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            width: 100%;
+            text-align: left;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .selected-report {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .report-table th, .report-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .report-table th {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .report-selector {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .generate-report-btn {
+            background-color: #3399ff;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .generate-report-btn:hover {
+            background-color: #007acc;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <aside class="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="calendarioV2.html">Clientes</a></li>
+                    <li><a href="clientes.html">Clientes</a></li>
+                    <li><a href="pedidos.html">Pedidos</a></li>
+                    <li><a href="reportes.html">Reportes</a></li>
+                    <li><a href="usuarios.html">Usuarios</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main>
+            <header>
+                <div class="menu-icon" onclick="toggleMenu()">
+                    <img src="imagenes/menu.png" alt="Menú">
+                </div>
+                <div class="logo">
+                    <img src="imagenes/logo.png" alt="Pharevsa">
+                </div>
+                <h1>Reportes</h1>    
+            </header>
+
+    <div class="container">
+        <div class="report-section">
+            <h2>Generar reporte</h2>
+
+            <div class="report-section">
+    <h2>Seleccione un reporte</h2>
+    <select class="report-selector" id="report-selector">
+      <option value="" disabled selected>Seleccione un reporte</option>
+      <option value="Reporte 1">Productos Almacenados</option>
+      <option value="Reporte 2">Pacientes con el mismo producto</option>
+      <option value="Reporte 3">Doctores que recetan mas productos</option>
+      <option value="Reporte 4">Contancia de clientes</option>
+    </select>
+    <button class="generate-report-btn" id="generate-report-btn">Generar Reporte</button>
+  </div>
+
+        <!-- Tabla con reportes previos -->
+        <h2>Historial de descargas</h2>
+        <div class="table-container" style="flex: 1; overflow-y: auto; border: 1px solid #4db5e3; margin: 20px 0; max-height: 665px;"></div>
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>Reporte</th>
+                    <th>Fecha de descarga</th>
+                    <th>Usuario</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="report-history">
+                <!-- Aquí se agregarán los reportes descargados -->
+            </tbody>
+        </table>
+    </div>
+    <script src="menu.js"></script>
+</body>
+</html>
